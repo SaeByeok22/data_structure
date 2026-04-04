@@ -104,6 +104,43 @@ int main()
 void alternateMergeLinkedList(LinkedList *ll1, LinkedList *ll2)
 {
     /* add your code here */
+
+	// ll1 = [A, B, C]
+	// ll2 = [1, 2, 3, 4]
+
+	// ll1의 현재 위치(주소)를 가리키는 포인터 변수 *cur1
+	// ll2의 현재 위치(주소)를 가리키는 포인터 변수 *cur2
+	// ll1의 다음 노드 주소를 가리키는 포인터 변수 *next1
+	// ll2의 다음 노드 주소를 가리키는 포인터 변수 *next2
+	ListNode *cur1, *cur2, *next1, *next2;
+
+	// 두 연결리스트 모두 아무것도 없을 때 처리하기 위한 CASE
+	if (ll1 == NULL || ll2 == NULL)
+		return;
+
+	// 일단 CUR1과 CUR2는 각각의 리스트의 HEAD를 가리키도록 초기화함.
+	cur1 = ll1->head;
+	cur2 = ll2->head;
+
+	// CUR1과 CUR2가 모두 NULL이 될 때까지 반복하면서, CUR1과 CUR2가 가리키는 노드들을 번갈아가면서 연결해주는 작업을 수행함.
+	while (cur1 != NULL && cur2 != NULL) {
+		// CUR1과 CUR2가 가리키는 노드들의 다음 노드 주소를 각각 NEXT1과 NEXT2에 저장함.
+		// 초기에는 CUR1이 A를 가리키고, CUR2가 1을 가리키고 있을 때, 
+		// NEXT1은 B를 가리키고, NEXT2는 2를 가리키게 됨.
+		next1 = cur1->next;
+		next2 = cur2->next;
+
+		// 연결을 바꾸는 것.. 
+		cur1->next = cur2;
+		cur2->next = next1;
+
+		cur1 = next1;
+		cur2 = next2;
+
+		ll1->size++;
+		ll2->size--;
+	}
+	ll2->head = cur2;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

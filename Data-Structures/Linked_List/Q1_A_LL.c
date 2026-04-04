@@ -91,6 +91,23 @@ int main()
 int insertSortedLL(LinkedList *ll, int item)
 {
 	/* add your code here */
+	int index = 0;
+	ListNode *cur = ll->head;
+	while (cur != NULL) {
+		if (cur->item == item) {
+			return -1;
+		}
+
+		if (cur->item > item) 
+			break;
+
+		cur = cur->next;
+		index++;
+	}
+	// printf("[DEBUG] before insert: size=%d, index=%d\n", ll->size, index);
+	insertNode(ll, index, item);
+	// printf("[DEBUG] after insert: size=%d, head=%p\n", ll->size, (void *)ll->head);
+	return index;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////

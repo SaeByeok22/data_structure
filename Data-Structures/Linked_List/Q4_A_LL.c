@@ -87,6 +87,45 @@ int main()
 void moveEvenItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
+	/* add your code here */
+	if (ll == NULL || ll->head == NULL)
+		return;
+
+	ListNode *cur = ll->head;
+	ListNode *prev = NULL;
+	ListNode *tail = ll->head;
+	ListNode *next;
+	int count = ll->size;
+	
+	// 현재 tail 노드 찾기.
+	while (tail->next != NULL) {
+		tail = tail->next;
+	}
+
+	// 원래 길이만큼만 반복
+    for (int i = 0; i < count; i++)
+    {
+        next = cur->next;
+
+        // 짝수이면 tail로 이동
+        if (cur->item % 2 == 0)
+        {
+            if (prev == NULL)
+                ll->head = next;
+            else
+                prev->next = next;
+
+            tail->next = cur;
+            cur->next = NULL;
+            tail = cur;
+            cur = next;
+        }
+        else
+        {
+            prev = cur;
+            cur = next;
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
