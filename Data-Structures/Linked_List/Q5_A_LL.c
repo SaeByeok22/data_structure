@@ -103,6 +103,7 @@ int main()
 void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, LinkedList *resultBackList)
 {
 	/* add your code here */
+	// 리스트가 비어있거나 없다? 앞 리스트, 뒷 리스트 모두 비어있는 걸로 초기화하고 끝.
 	if (ll == NULL || ll->head == NULL){
 		resultFrontList->head = NULL;
 		resultBackList->head = NULL;
@@ -111,18 +112,30 @@ void frontBackSplitLinkedList(LinkedList *ll, LinkedList *resultFrontList, Linke
 		return;
 	}
 
+	// 앞쪽 리스트 크기가 하나 더 커야하니깐.. 
+	// 리스트의 길이가 홀수면, FRONT 리스트가 하나 더 갖도록 하기 위해서~
+	// 만약 SIZE가 5다? FRONT SIZE 3, BACK SIZE 2 (항상 앞쪽이 하나 더 많거나 같음.)
 	int FrontSize = (ll->size + 1) / 2;
+	// 맨 앞부터 시작해서 어디서 자를지(HEAD로 만들지..)찾는 것..
 	ListNode *cur = ll->head;
 	
+	// 앞 리스트는 그냥 원래 HEAD 그대로 씀.
 	resultFrontList->head = ll->head;
 	resultFrontList->size = FrontSize;
+
+	// 앞 리스트의 마지막 노드까지 이동함.
+	// IF FRONT SIZE가 3이면, CUR = 0이 시작이고.. 1로 이동, 2로 이동. 2가 마지막 노드니까, 2에서 멈춰야 함.
 	for (int i = 0; i < FrontSize - 1; i++) {
 		cur = cur->next;
 	}
-
+	
+	// 앞 리스트의 CUR 포인터가 마지막 노드에서 멈춰있음. 그 다음 노드부터 BACK 리스트가 시작되어야 함.
+	// 그래서 BACK 리스트의 시작노드(HEAD)는 CUR의 다음 노드가 되는 것.
 	resultBackList->head = cur->next;
+	// 뒤 리스트의 크기는 전체 사이즈에서 앞 리스트의 사이즈를 뺀 것.
 	resultBackList->size = ll->size - FrontSize;
 
+	// 앞 리스트의 마지막 노드인 CUR의 다음 노드를 NULL로 만들어서, 앞 리스트가 끝나는 지점을 만들어주는 것.
 	cur ->next = NULL;
 }
 

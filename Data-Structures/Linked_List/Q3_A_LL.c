@@ -87,42 +87,43 @@ int main()
 void moveOddItemsToBack(LinkedList *ll)
 {
 	/* add your code here */
-	if (ll == NULL || ll->head == NULL)
+	if (ll == NULL || ll->head == NULL)	// 
 		return;
 
-	ListNode *cur = ll->head;
-	ListNode *prev = NULL;
-	ListNode *tail = ll->head;
-	ListNode *next;
-	int count = ll->size;
-	
+	ListNode *cur = ll->head; 	// cur는 현재 노드를 저장하는 포인터. 처음에는 head로 초기화함.
+	ListNode *prev = NULL;		// cur의 이전 노드를 저장하는 포인터. 처음에는 cur이 head이므로 prev는 NULL로 초기화함.
+	ListNode *tail = ll->head;	// tail이 어딘지 저장하는 포인터. 그런데 아직 tail이 어디인지 모르니까 일단 head로 초기화함.
+	ListNode *nxt;				// 다음 칸을 저장할 포인터!
+	int count = ll->size;		// 리스트의 원래 길이를 저장함. 왜냐구,,? 홀수인 노드들을 뒤로 옮길 때, 리스트 모양이 바뀌게 됨. 근데, 우리는 옮긴 홀수는 안보고, 원래 노드들만 한 번씩 보고싶으.ㅁ
 	// 현재 tail 노드 찾기.
-	while (tail->next != NULL) {
-		tail = tail->next;
+	// 
+	while (tail->next != NULL) {	// 다음칸이 있니? (다음 칸이 없을 때 까지 반복.)
+		tail = tail->next;			// 있으면 tail을 다음 칸으로 이동해. 
 	}
 
-	// 원래 길이만큼만 반복
+	// 원래 길이만큼만 반복해서 볼거임!, 근데, 뒤로 옮긴 홀수는 안 볼거임!
     for (int i = 0; i < count; i++)
-    {
-        next = cur->next;
+    {	
+		// cur을 다음칸으로 움직이거나, 뗄수도 있으니깐,, 미리 정보를 저장해두는 것!
+		// 만약 지금 7이고, 다음이 4면, 7을 떼내야 하는데, 4의 정보가 사라지면 그 리스트는 실종..하게 됨.
+		// 나라는 변수를 통해서 현재 노드의 다음 주소를 기억하고 있겠다. cur너는 사라져도 괜찮아
+        nxt = cur->next;
 
         // 홀수이면 tail로 이동
-        if (cur->item % 2 != 0)
-        {
-            if (prev == NULL)
-                ll->head = next;
-            else
-                prev->next = next;
-
-            tail->next = cur;
-            cur->next = NULL;
-            tail = cur;
-            cur = next;
-        }
-        else
-        {
-            prev = cur;
-            cur = next;
+        if (cur->item % 2 != 0) {
+            if (prev == NULL)		// prev가 null이다? cur이 맨 앞 노드라는 뜻.
+                ll->head = nxt;	// 맨 앞 노드(cur)를 떼어내면 리스트의 시작점이 바껴야 함.
+            else					// cur이 맨 앞 노드가 아닌 경우
+                prev->next = nxt;	// prev가 현재 노드(cur)의 앞이고, next가 현재 노드의 뒷칸이니깐..
+									// cur을 떼었을 때, prev와 next가 연결되도록 해주는 것!
+									
+            tail->next = cur;		// tail의 다음 칸이 cur이 되도록 함. 너 맨 뒤로 가버려!
+            cur->next = NULL;		// 새로 붙어버린 cur의 다음 칸을 NULL로 만들어서 너는 맨 뒤 노드다! 라고 해주는 것.
+            tail = cur;				// tail이 cur이 되도록 함. 왜냐면, cur이 맨 뒤로 갔으니까, 이제 tail은 cur이야~~
+            cur = nxt;				// 홀수를 옮겼으니깐.. 이제 아까 기억해둔 다음 칸인 NEXT로 가서 또 검사해라...
+        } else {					// 짝수면..
+            prev = cur;				// prev는 cur이 되도록 함. 왜냐면, 짝수는 그대로 있으니까, prev도 같이 이동해주는 것!
+            cur = nxt;				// cur을 다음 칸으로 이동해. 왜냐면, 짝수는 그대로 있으니까, 다음 칸으로 이동해서 또 검사해라...
         }
     }
 }
