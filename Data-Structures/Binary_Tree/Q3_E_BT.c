@@ -102,6 +102,17 @@ int countOneChildNodes(BTNode *node)
 
 {
     /* add your code here */
+    if (node == NULL)
+        return 0;
+
+    int count = 0;
+
+    // 자식이 정확히 하나인 경우
+    if ((node->left == NULL && node->right != NULL) || (node->left != NULL && node->right == NULL)) {
+        count = 1;
+    }
+
+    return count + countOneChildNodes(node->left) + countOneChildNodes(node->right);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
